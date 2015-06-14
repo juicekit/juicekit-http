@@ -53,9 +53,11 @@ class Request extends Message
         if ($_POST) {
             $this->post = $_POST;
         }
+
+        $this->setServer($_SERVER);
     }
 
-    public function setServer($server)
+    protected function setServer($server)
     {
         if (!is_array($server) && !($server instanceof \Traversable)) {
             throw new InvalidArgumentException(sprintf("%s is not a traversable type."));
@@ -74,7 +76,7 @@ class Request extends Message
         $this->server = $server;
     }
 
-    private function parseHeaderName($name)
+    protected  function parseHeaderName($name)
     {
         $header = str_replace('_', ' ', strtolower(substr($name, 5)));
 
