@@ -32,8 +32,7 @@ class Request extends Message
     const METHOD_PUT = 'PUT';
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
-
-
+    
     private $method = self::METHOD_GET;
 
     private $query = array();
@@ -76,7 +75,7 @@ class Request extends Message
         $this->server = $server;
     }
 
-    protected  function parseHeaderName($name)
+    protected function parseHeaderName($name)
     {
         $header = str_replace('_', ' ', strtolower(substr($name, 5)));
 
@@ -92,9 +91,11 @@ class Request extends Message
         return $this->content;
     }
 
-    public function getHeader($header)
+    public function getHeaders($header = null)
     {
-        if (isset($this->headers[$header])) {
+        if ($header === null) {
+            return $this->headers;
+        } else if (isset($this->headers[$header])) {
             return $this->headers[$header];
         }
 
@@ -105,5 +106,42 @@ class Request extends Message
         }
 
         return null;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function getPost($key = null)
+    {
+        if ($key === null) {
+            return $this->post;
+        } else if (isset($this->post[$key])) {
+            return $this->post[$key];
+        }
+
+        return null;
+    }
+
+    public function getQuery($key = null)
+    {
+        if ($key === null) {
+            return $this->query;
+        } else if (isset($this->query[$key])) {
+            return $this->query[$key];
+        }
+
+        return null;
+    }
+
+    public function isPost()
+    {
+        return $this->method === self::METHOD_POST;
+    }
+
+    public function isGet()
+    {
+        return $this->method === self::METHOD_GET;
     }
 }
