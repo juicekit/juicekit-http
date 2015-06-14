@@ -196,8 +196,8 @@ class Response extends Message
 
     public function setStatusCode($statusCode)
     {
-        if (is_int($statusCode)) {
-            throw new InvalidArgumentException(sprintf("%s is not a integer"));
+        if (!is_int($statusCode)) {
+            throw new InvalidArgumentException(sprintf("%s is not a integer", $statusCode));
         }
 
         $this->statusCode = $statusCode;
