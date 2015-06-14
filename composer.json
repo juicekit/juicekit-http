@@ -1,0 +1,18 @@
+{
+    "name": "juicekit/http",
+    "autoload": {
+        "psr-0": {
+            "JuiceKit\\Http\\": "src"
+        }
+    },
+    "description": "Lightweight HTTP wrapper to handle requests and responses",
+    "homepage": "https://juicekit.io/http",
+    "type": "library",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "Yoel Nunez",
+            "email": "dev@nunez.guru"
+        }
+    ]
+}
