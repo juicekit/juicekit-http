@@ -23,26 +23,30 @@ use JuiceKit\Http\Exception\InvalidArgumentException;
 
 abstract class Message implements MessageInterface
 {
-    protected $metadata = array();
+    protected $headers = array();
     protected $content = null;
     protected $length = 0;
 
-    public function setMetadata($key, $value = null)
+    public function setHeaders($headers)
     {
-        if (!is_scalar($key)) {
-            throw new InvalidArgumentException(sprintf("%s is not a valid key type.", $key));
+        if (!is_array($headers) && !($headers instanceof \Traversable)) {
+            throw new InvalidArgumentException(sprintf("%s is not an array or traversable object.", $headers));
         }
 
-        $this->metadata[$key] = $value;
+        $this->headers = $headers;
     }
 
-    public function getMetadata($key = null)
+    public function getHeaders($key = null)
     {
-        if (!is_scalar($key)) {
+        if ($key === null) {
+            return $this->headers;
+        } else if (!is_scalar($key)) {
             throw new InvalidArgumentException(sprintf("%s is not a valid key type.", $key));
+        } else if (isset($this->headers[$key])) {
+            return $this->headers[$key];
         }
 
-        return isset($this->metadata[$key]) ? $this->metadata[$key] : null;
+        return null;
     }
 
     public function setContent($content)

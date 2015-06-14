@@ -20,8 +20,8 @@ namespace JuiceKit\Http;
 
 
 interface MessageInterface {
-    public function setMetadata($key, $value = null);
-    public function getMetadata($key = null);
+    public function setHeaders($headers);
+    public function getHeaders($key = null);
     public function setContent($content);
     public function getContent();
     public function setLength($length);

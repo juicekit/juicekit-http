@@ -32,16 +32,13 @@ class Request extends Message
     const METHOD_PUT = 'PUT';
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
-    
+
     private $method = self::METHOD_GET;
 
     private $query = array();
     private $post = array();
 
     private $server = null;
-
-
-    private $headers = array();
 
     function __construct()
     {
@@ -62,13 +59,16 @@ class Request extends Message
             throw new InvalidArgumentException(sprintf("%s is not a traversable type."));
         }
 
+        $headers = array();
         foreach ($server as $name => $value) {
             if (substr($name, 0, 5) === 'HTTP_') {
                 $header = $this->parseHeaderName($name);
 
-                $this->headers[$header] = $value;
+                $headers[$header] = $value;
             }
         }
+
+        $this->setHeaders($headers);
 
         $this->method = $server['REQUEST_METHOD'];
 
@@ -91,18 +91,18 @@ class Request extends Message
         return $this->content;
     }
 
-    public function getHeaders($header = null)
+    public function getHeaders($key = null)
     {
-        if ($header === null) {
-            return $this->headers;
-        } else if (isset($this->headers[$header])) {
-            return $this->headers[$header];
+        $header = parent::getHeaders($key);
+
+        if ($header !== null) {
+            return $header;
         }
 
         $headers = array_change_key_case($this->headers, CASE_LOWER);
 
-        if (isset($headers[strtolower($header)])) {
-            return $header[strtolower($header)];
+        if (isset($headers[strtolower($key)])) {
+            return $key[strtolower($key)];
         }
 
         return null;
