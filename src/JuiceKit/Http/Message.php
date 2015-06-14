@@ -34,6 +34,8 @@ abstract class Message implements MessageInterface
         }
 
         $this->headers = $headers;
+
+        return $this;
     }
 
     public function getHeaders($key = null)
@@ -52,6 +54,8 @@ abstract class Message implements MessageInterface
     public function setContent($content)
     {
         $this->content = $content;
+
+        return $this;
     }
 
     public function getContent()
@@ -62,6 +66,8 @@ abstract class Message implements MessageInterface
     public function setLength($length)
     {
         $this->length = $length;
+
+        return $this;
     }
 
     public function getLength()
