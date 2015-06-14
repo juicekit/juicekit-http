@@ -156,6 +156,18 @@ class Response extends Message
     private $statusCode = self::STATUS_CODE_200;
     private $reasonPhrase = null;
 
+    public function addHeader($name, $value)
+    {
+        if (isset($this->headers[$name])) {
+            if ($this->headers[$name] !== $value) {
+                $this->headers[$name] = sprintf("%s, %s", $this->headers[$name], $value);
+            }
+        } else {
+            $this->headers[$name] = $value;
+        }
+
+        return $this;
+    }
 
     public function getReasonPhrase()
     {
@@ -225,7 +237,6 @@ class Response extends Message
     {
         return headers_sent();
     }
-
 
     public function send()
     {
